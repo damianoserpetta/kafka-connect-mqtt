@@ -54,9 +54,11 @@ public class MQTTSinkTask extends SinkTask {
         connOpts.setConnectionTimeout(config.getInt(MQTTSinkConnectorConfig.MQTT_CONNECTIONTIMEOUT));
         connOpts.setAutomaticReconnect(config.getBoolean(MQTTSinkConnectorConfig.MQTT_ARC));
 
-        if (!config.getString(MQTTSinkConnectorConfig.MQTT_USERNAME).equals("") && !config.getPassword(MQTTSinkConnectorConfig.MQTT_PASSWORD).equals("")) {
+        if (!config.getString(MQTTSinkConnectorConfig.MQTT_USERNAME).equals("")) {
             connOpts.setUserName(config.getString(MQTTSinkConnectorConfig.MQTT_USERNAME));
-            connOpts.setPassword(config.getPassword(MQTTSinkConnectorConfig.MQTT_PASSWORD).value().toCharArray());
+            if(!config.getPassword(MQTTSinkConnectorConfig.MQTT_PASSWORD).equals("")){
+                connOpts.setPassword(config.getPassword(MQTTSinkConnectorConfig.MQTT_PASSWORD).value().toCharArray());
+            }
         }
 
         log.debug("MQTT Connection properties: " + connOpts);
